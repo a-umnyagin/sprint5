@@ -101,7 +101,7 @@ type Running struct {
 // ((18 * средняя_скорость_в_км/ч + 1.79) * вес_спортсмена_в_кг / м_в_км * время_тренировки_в_часах * мин_в_часе)
 // Это переопределенный метод Calories() из Training.
 func (r Running) Calories() float64 {
-	calories := ((CaloriesMeanSpeedMultiplier*r.meanSpeed() + CaloriesMeanSpeedShift) * r.Weight / MInKm * float64(r.Duration.Hours()) * MinInHours)
+	calories := ((CaloriesMeanSpeedMultiplier*r.meanSpeed() + CaloriesMeanSpeedShift) * r.Weight / MInKm * float64(r.Duration.Minutes()))
 	return calories
 }
 
@@ -131,7 +131,9 @@ func (w Walking) Calories() float64 {
 	if w.Height == 0 {
 		return 0
 	}
-	calories := ((CaloriesWeightMultiplier*w.Weight + (math.Pow(w.meanSpeed(), 2)/w.Height)*CaloriesSpeedHeightMultiplier*w.Weight) * float64(w.Duration.Hours()) * MinInHours)
+	msSpeed := w.meanSpeed() * KmHInMsec
+	cmHeight := w.Height / CmInM
+	calories := ((CaloriesWeightMultiplier*w.Weight + (math.Pow(msSpeed, 2)/cmHeight)*CaloriesSpeedHeightMultiplier*w.Weight) * float64(w.Duration.Minutes()))
 	return calories
 }
 
