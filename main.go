@@ -161,7 +161,7 @@ func (s Swimming) meanSpeed() float64 {
 	if s.Duration == 0 {
 		return 0
 	}
-	speed := float64(s.LengthPool) * float64(s.CountPool) / MInKm / float64(s.Duration)
+	speed := float64(s.LengthPool) * float64(s.CountPool) / MInKm / float64(s.Duration.Hours())
 	return speed
 }
 
